@@ -69,107 +69,117 @@ const Motorcycles = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-8 min-h-screen pb-24">
+    <>
       <ActionModal onClose={closeModal} {...modal} isLoading={mutation.isPending || handleDelete.isPending} />
-
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+      
+      <div className="max-w-7xl mx-auto p-4 md:p-8 min-h-screen pb-24" data-aos="fade-in">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6" data-aos="fade-up">
          <div>
-           <h1 className="font-heading font-extrabold text-3xl text-gray-900">Manajemen Stok</h1>
-           <p className="text-gray-500 text-sm mt-1">Kelola listing, update harga, atau hapus stok.</p>
+           <h1 className="font-heading font-extrabold text-3xl text-textPrimary">Manajemen Stok</h1>
+           <p className="text-textSecondary text-sm mt-2">Kelola listing, update harga, atau hapus stok.</p>
          </div>
-         <div className="relative">
-            <input type="text" placeholder="Cari stok..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 pr-4 py-2 rounded-full bg-white border border-gray-200 text-sm focus:ring-2 focus:ring-primary/20 outline-none shadow-sm w-full md:w-64" />
-            <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"/>
+         <div className="relative w-full md:w-auto">
+            <input type="text" placeholder="Cari stok..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-11 pr-4 py-3 rounded-xl bg-white border border-border text-sm focus:ring-2 focus:ring-accent/20 outline-none shadow-sm w-full md:w-72 transition-all" />
+            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-textSecondary text-xs"/>
          </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Form Section */}
-        <div className="lg:col-span-1">
-          <div className="bg-white p-6 rounded-3xl shadow-soft border border-gray-100 sticky top-24">
-            <h2 className={`font-bold text-lg mb-6 flex items-center gap-2 pb-4 border-b border-gray-50 ${editingId ? 'text-orange-500' : 'text-primary'}`}>
+        <div className="lg:col-span-1" data-aos="fade-up" data-aos-delay="100">
+          <div className="bg-white p-8 rounded-[2rem] shadow-card border border-border sticky top-24">
+            <h2 className={`font-heading font-bold text-xl mb-6 flex items-center gap-3 pb-4 border-b border-border ${editingId ? 'text-warning' : 'text-primary'}`}>
                {editingId ? <><FaEdit/> Mode Edit Data</> : <><FaPlus/> Tambah Stok Baru</>}
             </h2>
-            <form onSubmit={mutation.mutate} className="space-y-4">
-              {/* Form inputs sama seperti sebelumnya */}
+            <form onSubmit={mutation.mutate} className="space-y-5">
               <div>
-                <label className="text-[10px] font-bold text-gray-400 ml-1 mb-1 block tracking-wider">NAMA MODEL</label>
+                <label className="text-[10px] font-bold text-textSecondary ml-1 mb-1.5 block tracking-wider uppercase">Nama Model</label>
                 <div className="relative group">
-                  <FaMotorcycle className="absolute left-4 top-3.5 text-gray-400"/>
-                  <input placeholder="Contoh: Honda PCX 160" value={form.model_name} onChange={e => setForm({...form, model_name: e.target.value})} className="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-primary rounded-xl pl-10 pr-4 py-3 text-sm font-bold text-gray-700 focus:ring-4 focus:ring-primary/10 transition outline-none" required />
+                  <FaMotorcycle className="absolute left-4 top-3.5 text-textSecondary group-focus-within:text-accent transition-colors"/>
+                  <input placeholder="Contoh: Honda PCX 160" value={form.model_name} onChange={e => setForm({...form, model_name: e.target.value})} className="w-full bg-background border border-transparent focus:bg-white focus:border-accent rounded-xl pl-11 pr-4 py-3 text-sm font-bold text-textPrimary focus:ring-4 focus:ring-accent/10 transition outline-none" required />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+
+              <div>
+                <label className="text-[10px] font-bold text-textSecondary ml-1 mb-1.5 block tracking-wider uppercase">Spesifikasi</label>
+                <div className="relative group">
+                  <FaFileAlt className="absolute left-4 top-3.5 text-textSecondary group-focus-within:text-accent transition-colors"/>
+                  <textarea placeholder="Jelaskan kondisi mesin, kilometer, dll..." value={form.specs} onChange={e => setForm({...form, specs: e.target.value})} className="w-full bg-background border border-transparent focus:bg-white focus:border-accent rounded-xl pl-11 pr-4 py-3 text-sm font-medium text-textPrimary focus:ring-4 focus:ring-accent/10 transition outline-none min-h-[100px]" required />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-bold text-gray-400 ml-1 mb-1 block tracking-wider">HARGA (Rp)</label>
-                  <input type="number" placeholder="0" value={form.price} onChange={e => setForm({...form, price: e.target.value})} className="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-primary rounded-xl px-4 py-3 text-sm font-bold text-gray-700 focus:ring-4 focus:ring-primary/10 transition outline-none" required />
+                  <label className="text-[10px] font-bold text-textSecondary ml-1 mb-1.5 block tracking-wider uppercase">Harga (Rp)</label>
+                  <input type="number" placeholder="0" value={form.price} onChange={e => setForm({...form, price: e.target.value})} className="w-full bg-background border border-transparent focus:bg-white focus:border-accent rounded-xl px-4 py-3 text-sm font-bold text-textPrimary focus:ring-4 focus:ring-accent/10 transition outline-none" required />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-gray-400 ml-1 mb-1 block tracking-wider">BRAND</label>
-                  <select value={form.brand_id} onChange={e => setForm({...form, brand_id: e.target.value})} className="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-primary rounded-xl px-3 py-3 text-sm font-bold text-gray-700 focus:ring-4 focus:ring-primary/10 transition outline-none" required>
-                    <option value="">Pilih...</option>
+                  <label className="text-[10px] font-bold text-textSecondary ml-1 mb-1.5 block tracking-wider uppercase">Brand</label>
+                  <select value={form.brand_id} onChange={e => setForm({...form, brand_id: e.target.value})} className="w-full bg-background border border-transparent focus:bg-white focus:border-accent rounded-xl px-4 py-3 text-sm font-bold text-textPrimary focus:ring-4 focus:ring-accent/10 transition outline-none appearance-none" required>
+                    <option value="">Pilih Brand</option>
                     {brands?.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
                   </select>
                 </div>
               </div>
+
               <div>
-                <label className="text-[10px] font-bold text-gray-400 ml-1 mb-1 block tracking-wider">SPESIFIKASI</label>
+                <label className="text-[10px] font-bold text-textSecondary ml-1 mb-1.5 block tracking-wider uppercase">URL Gambar</label>
                 <div className="relative group">
-                  <FaFileAlt className="absolute left-4 top-3.5 text-gray-400"/>
-                  <input placeholder="Contoh: 160cc, ABS, Keyless" value={form.specs} onChange={e => setForm({...form, specs: e.target.value})} className="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-primary rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-gray-600 focus:ring-4 focus:ring-primary/10 transition outline-none" required />
+                  <FaImage className="absolute left-4 top-3.5 text-textSecondary group-focus-within:text-accent transition-colors"/>
+                  <input placeholder="https://..." value={form.logo_url} onChange={e => setForm({...form, logo_url: e.target.value})} className="w-full bg-background border border-transparent focus:bg-white focus:border-accent rounded-xl pl-11 pr-4 py-3 text-sm font-medium text-textPrimary focus:ring-4 focus:ring-accent/10 transition outline-none" required />
                 </div>
               </div>
-              <div>
-                <label className="text-[10px] font-bold text-gray-400 ml-1 mb-1 block tracking-wider">FOTO URL</label>
-                <div className="relative group">
-                  <FaImage className="absolute left-4 top-3.5 text-gray-400"/>
-                  <input placeholder="https://..." value={form.logo_url} onChange={e => setForm({...form, logo_url: e.target.value})} className="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-primary rounded-xl pl-10 pr-4 py-3 text-xs font-medium text-blue-600 truncate focus:ring-4 focus:ring-primary/10 transition outline-none" required />
-                </div>
-              </div>
-              
-              <div className="flex gap-2 pt-4">
-                <button type="submit" disabled={mutation.isPending} className={`flex-1 text-white font-bold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2 ${editingId ? 'bg-orange-500 hover:bg-orange-600' : 'bg-primary hover:bg-blue-700'}`}>
-                   {mutation.isPending ? 'Processing...' : (editingId ? 'Update Data' : 'Simpan Listing')}
-                </button>
+
+              <div className="flex gap-3 pt-2">
                 {editingId && (
-                  <button type="button" onClick={resetForm} className="px-4 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition flex items-center justify-center"><FaUndo/></button>
+                  <button type="button" onClick={resetForm} className="px-4 py-3 rounded-xl bg-gray-100 text-textSecondary font-bold hover:bg-gray-200 transition">
+                    <FaUndo/>
+                  </button>
                 )}
+                <button type="submit" className={`flex-1 text-white font-bold py-3.5 rounded-xl transition shadow-lg transform active:scale-95 ${editingId ? 'bg-warning hover:bg-yellow-600 shadow-warning/30' : 'bg-primary hover:bg-accent shadow-primary/30'}`}>
+                   {editingId ? 'Update Data' : 'Simpan Listing'}
+                </button>
               </div>
             </form>
           </div>
         </div>
 
         {/* List Section */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-4" data-aos="fade-up" data-aos-delay="200">
           {loadMotors ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">{[1,2,3,4].map(i => <div key={i} className="h-64 bg-gray-100 rounded-3xl animate-pulse"></div>)}</div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {filteredMotors?.map((motor) => (
-                <div key={motor.id} className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col relative h-full">
-                   <div className="relative h-56 bg-gray-100 overflow-hidden">
-                      <img src={motor.logo_url} alt={motor.model_name} className="w-full h-full object-cover transition duration-700 ease-out" onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=No+Image' }} />
-                      <div className="absolute top-3 left-3 bg-white/95 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-widest text-gray-800 shadow-sm z-10 pointer-events-none">{motor.brands?.name || 'Motor'}</div>
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4 z-20 backdrop-blur-[2px]">
-                         <button onClick={() => handleEdit(motor)} className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-xl transform hover:scale-110 active:scale-95"><FaEdit size={20}/></button>
-                         <button onClick={() => confirmDelete(motor.id)} className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-xl transform hover:scale-110 active:scale-95"><FaTrash size={20}/></button>
-                      </div>
-                   </div>
-                   <div className="p-5 flex-1 flex flex-col justify-between">
-                     <div><h3 className="font-bold text-gray-900 text-lg leading-tight mb-1">{motor.model_name}</h3><p className="text-gray-500 text-xs line-clamp-2 h-8">{motor.specs}</p></div>
-                     <div className="mt-4 pt-4 border-t border-gray-50 flex justify-between items-end">
-                        <div><p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Harga Jual</p><span className="text-primary font-extrabold text-xl">Rp {Number(motor.price).toLocaleString('id-ID')}</span></div>
-                        <button onClick={() => handleEdit(motor)} className="lg:hidden text-xs font-bold text-blue-500 bg-blue-50 px-3 py-1.5 rounded-lg">Edit</button>
-                     </div>
-                   </div>
-                </div>
-              ))}
+            [1,2,3].map(i => <div key={i} className="h-32 bg-gray-100 rounded-2xl animate-pulse"></div>)
+          ) : filteredMotors?.length === 0 ? (
+            <div className="text-center py-20 bg-white rounded-[2rem] border border-dashed border-border">
+               <p className="text-textSecondary font-medium">Belum ada data motor.</p>
             </div>
+          ) : (
+            filteredMotors?.map((motor) => (
+              <div key={motor.id} className="bg-white p-4 rounded-3xl border border-border shadow-sm hover:shadow-card-hover transition-all duration-300 flex gap-4 group">
+                <div className="w-24 h-24 md:w-32 md:h-32 bg-gray-50 rounded-2xl flex-shrink-0 p-2 border border-border">
+                  <img src={motor.logo_url} alt={motor.model_name} className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition duration-500" />
+                </div>
+                <div className="flex-1 flex flex-col justify-between py-1">
+                  <div>
+                    <div className="flex justify-between items-start">
+                      <h3 className="font-heading font-bold text-textPrimary text-lg">{motor.model_name}</h3>
+                      <span className="text-[10px] font-bold bg-blue-50 text-accent px-2 py-1 rounded-lg border border-blue-100">{motor.brands?.name}</span>
+                    </div>
+                    <p className="text-textSecondary text-xs mt-1 line-clamp-2">{motor.specs}</p>
+                  </div>
+                  <div className="flex items-end justify-between mt-3">
+                    <span className="font-heading font-extrabold text-primary text-lg">Rp {Number(motor.price).toLocaleString('id-ID')}</span>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEdit(motor)} className="p-2 rounded-xl bg-blue-50 text-accent hover:bg-accent hover:text-white transition shadow-sm"><FaEdit size={14}/></button>
+                      <button onClick={() => confirmDelete(motor.id)} className="p-2 rounded-xl bg-red-50 text-danger hover:bg-danger hover:text-white transition shadow-sm"><FaTrash size={14}/></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
           )}
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
-};
-
-export default Motorcycles;
+};export default Motorcycles;

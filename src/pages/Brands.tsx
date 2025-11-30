@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getBrands, createBrand, deleteBrand, updateBrand } from '../services/apiServices';
 import ActionModal, { type ModalType } from '../components/ActionModal';
 import type { Brand } from '../types';
-import { FaTrash, FaEdit, FaPlus, FaImage } from 'react-icons/fa';
+import { FaEdit, FaPlus, FaImage, FaGlobe } from 'react-icons/fa';
 
 const Brands = () => {
   const queryClient = useQueryClient();
@@ -62,74 +62,81 @@ const Brands = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 min-h-screen pb-24">
+    <>
       <ActionModal onClose={closeModal} {...modal} isLoading={mutation.isPending || handleDeleteMutation.isPending} />
       
-      <div className="flex items-center justify-between mb-8">
-         <h1 className="font-heading font-extrabold text-3xl text-gray-900">Manajemen Brand</h1>
-         <span className="bg-blue-50 text-primary px-4 py-2 rounded-full text-sm font-bold">{brands?.length || 0} Brands</span>
+      <div className="max-w-6xl mx-auto p-6 min-h-screen pb-24" data-aos="fade-in">
+        <div className="flex items-center justify-between mb-10" data-aos="fade-up">
+         <div>
+            <h1 className="font-heading font-extrabold text-3xl text-textPrimary">Manajemen Brand</h1>
+            <p className="text-textSecondary text-sm mt-2">Atur daftar pabrikan motor yang tersedia.</p>
+         </div>
+         <span className="bg-blue-50 text-accent px-5 py-2 rounded-full text-sm font-bold border border-blue-100 shadow-sm">{brands?.length || 0} Brands</span>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Form Section */}
-        <div className="lg:col-span-1">
-          <div className="bg-white p-6 rounded-3xl shadow-soft border border-gray-100 sticky top-24">
-            <h2 className="font-bold text-lg mb-4 flex items-center gap-2">
-               {editingId ? <><FaEdit className="text-orange-500"/> Edit Brand</> : <><FaPlus className="text-primary"/> Tambah Brand</>}
+        <div className="lg:col-span-1" data-aos="fade-up" data-aos-delay="100">
+          <div className="bg-white p-8 rounded-[2rem] shadow-card border border-border sticky top-24">
+            <h2 className="font-heading font-bold text-xl mb-6 flex items-center gap-3 pb-4 border-b border-border">
+               {editingId ? <><FaEdit className="text-warning"/> Edit Brand</> : <><FaPlus className="text-primary"/> Tambah Brand</>}
             </h2>
-            <form onSubmit={mutation.mutate} className="space-y-4">
+            <form onSubmit={mutation.mutate} className="space-y-5">
               <div>
-                <label className="text-xs font-bold text-gray-500 ml-1 mb-1 block">NAMA BRAND</label>
-                <input placeholder="Contoh: Yamaha" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full bg-gray-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20" required />
+                <label className="text-[10px] font-bold text-textSecondary ml-1 mb-1.5 block tracking-wider uppercase">Nama Brand</label>
+                <input placeholder="Contoh: Yamaha" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full bg-background border border-transparent focus:bg-white focus:border-accent rounded-xl px-4 py-3 text-sm font-bold text-textPrimary focus:ring-4 focus:ring-accent/10 transition outline-none" required />
               </div>
               <div>
-                <label className="text-xs font-bold text-gray-500 ml-1 mb-1 block">NEGARA ASAL</label>
-                <input placeholder="Contoh: Jepang" value={form.country} onChange={e => setForm({...form, country: e.target.value})} className="w-full bg-gray-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20" required />
-              </div>
-              <div>
-                <label className="text-xs font-bold text-gray-500 ml-1 mb-1 block">URL LOGO</label>
-                <div className="flex gap-2">
-                   <div className="flex-1 relative">
-                     <FaImage className="absolute left-3 top-3.5 text-gray-400"/>
-                     <input placeholder="https://..." value={form.logo_url} onChange={e => setForm({...form, logo_url: e.target.value})} className="w-full bg-gray-50 border-none rounded-xl pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary/20" required />
-                   </div>
+                <label className="text-[10px] font-bold text-textSecondary ml-1 mb-1.5 block tracking-wider uppercase">Negara Asal</label>
+                <div className="relative group">
+                   <FaGlobe className="absolute left-4 top-3.5 text-textSecondary group-focus-within:text-accent transition-colors"/>
+                   <input placeholder="Contoh: Jepang" value={form.country} onChange={e => setForm({...form, country: e.target.value})} className="w-full bg-background border border-transparent focus:bg-white focus:border-accent rounded-xl pl-11 pr-4 py-3 text-sm font-medium text-textPrimary focus:ring-4 focus:ring-accent/10 transition outline-none" required />
                 </div>
               </div>
-              <button type="submit" className={`w-full text-white font-bold py-3 rounded-xl transition ${editingId ? 'bg-orange-500' : 'bg-primary shadow-lg shadow-primary/30 hover:bg-blue-700'}`}>
-                 {editingId ? 'Update' : 'Simpan'}
+              <div>
+                <label className="text-[10px] font-bold text-textSecondary ml-1 mb-1.5 block tracking-wider uppercase">URL Logo</label>
+                <div className="relative group">
+                   <FaImage className="absolute left-4 top-3.5 text-textSecondary group-focus-within:text-accent transition-colors"/>
+                   <input placeholder="https://..." value={form.logo_url} onChange={e => setForm({...form, logo_url: e.target.value})} className="w-full bg-background border border-transparent focus:bg-white focus:border-accent rounded-xl pl-11 pr-4 py-3 text-sm font-medium text-textPrimary focus:ring-4 focus:ring-accent/10 transition outline-none" required />
+                </div>
+              </div>
+              <button type="submit" className={`w-full text-white font-bold py-3.5 rounded-xl transition shadow-lg transform active:scale-95 ${editingId ? 'bg-warning hover:bg-yellow-600 shadow-warning/30' : 'bg-primary shadow-primary/30 hover:bg-accent'}`}>
+                 {editingId ? 'Update Brand' : 'Simpan Brand'}
               </button>
-              {editingId && (
-                  <button type="button" onClick={() => { setEditingId(null); setForm({name:'', country:'', logo_url:''}) }} className="w-full bg-gray-100 text-gray-600 font-bold py-3 rounded-xl hover:bg-gray-200">Batal</button>
-              )}
             </form>
           </div>
         </div>
 
         {/* List Section */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2" data-aos="fade-up" data-aos-delay="200">
           {isLoading ? (
-            <div className="text-center py-10">Loading data...</div>
+             <div className="grid grid-cols-2 gap-4">{[1,2,3,4].map(i => <div key={i} className="h-40 bg-gray-100 rounded-3xl animate-pulse"></div>)}</div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {brands?.map((brand) => (
-                <div key={brand.id} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
-                   <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center p-3 mb-3 group-hover:scale-110 transition duration-300 border border-gray-100">
-                      <img src={brand.logo_url} alt={brand.name} className="w-full h-full object-contain" />
-                   </div>
-                   <h3 className="font-bold text-gray-900">{brand.name}</h3>
-                   <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded mt-1">{brand.country}</span>
-                   
-                   <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition">
-                      <button onClick={() => handleEdit(brand)} className="w-8 h-8 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-100"><FaEdit size={12}/></button>
-                      <button onClick={() => confirmDelete(brand.id)} className="w-8 h-8 bg-red-50 text-red-600 rounded-lg flex items-center justify-center hover:bg-red-100"><FaTrash size={12}/></button>
-                   </div>
+                <div key={brand.id} className="bg-white p-6 rounded-[2rem] border border-border shadow-sm hover:shadow-card-hover transition-all duration-300 group flex items-center gap-5 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-[3rem] -z-0 opacity-50 group-hover:opacity-100 transition"></div>
+                  
+                  <div className="w-20 h-20 bg-white rounded-2xl border border-border p-3 flex items-center justify-center shadow-sm z-10">
+                    <img src={brand.logo_url} alt={brand.name} className="w-full h-full object-contain" />
+                  </div>
+                  
+                  <div className="flex-1 z-10">
+                    <h3 className="font-heading font-bold text-lg text-textPrimary">{brand.name}</h3>
+                    <p className="text-textSecondary text-xs mb-3 flex items-center gap-1"><FaGlobe size={10}/> {brand.country}</p>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEdit(brand)} className="px-3 py-1.5 rounded-lg bg-blue-50 text-accent text-xs font-bold hover:bg-accent hover:text-white transition">Edit</button>
+                      <button onClick={() => confirmDelete(brand.id)} className="px-3 py-1.5 rounded-lg bg-red-50 text-danger text-xs font-bold hover:bg-danger hover:text-white transition">Hapus</button>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

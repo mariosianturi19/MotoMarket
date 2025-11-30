@@ -9,7 +9,7 @@ interface ActionModalProps {
   type: ModalType;
   title: string;
   message: string;
-  onConfirm?: () => void; // Hanya perlu untuk tipe confirm/delete
+  onConfirm?: () => void;
   confirmText?: string;
   isLoading?: boolean;
 }
@@ -19,30 +19,29 @@ const ActionModal: React.FC<ActionModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  // Konfigurasi tampilan berdasarkan Tipe Modal
   const config = {
     success: {
-      icon: <FaCheckCircle className="text-4xl text-green-500" />,
+      icon: <FaCheckCircle className="text-4xl text-success" />,
       bgIcon: "bg-green-50",
-      btnColor: "bg-green-600 hover:bg-green-700",
+      btnColor: "bg-success hover:bg-green-600 shadow-success/30",
       showCancel: false
     },
     error: {
-      icon: <FaExclamationCircle className="text-4xl text-red-500" />,
+      icon: <FaExclamationCircle className="text-4xl text-danger" />,
       bgIcon: "bg-red-50",
-      btnColor: "bg-red-600 hover:bg-red-700",
+      btnColor: "bg-danger hover:bg-red-600 shadow-danger/30",
       showCancel: false
     },
     confirm: {
-      icon: <FaQuestionCircle className="text-4xl text-primary" />,
+      icon: <FaQuestionCircle className="text-4xl text-accent" />,
       bgIcon: "bg-blue-50",
-      btnColor: "bg-primary hover:bg-blue-700",
+      btnColor: "bg-accent hover:bg-blue-600 shadow-accent/30",
       showCancel: true
     },
     delete: {
-      icon: <FaTrash className="text-3xl text-red-500" />,
+      icon: <FaTrash className="text-3xl text-danger" />,
       bgIcon: "bg-red-50",
-      btnColor: "bg-red-600 hover:bg-red-700",
+      btnColor: "bg-danger hover:bg-red-600 shadow-danger/30",
       showCancel: true
     }
   };
@@ -51,35 +50,30 @@ const ActionModal: React.FC<ActionModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      {/* Backdrop Blur */}
       <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
+        className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity animate-fade-in" 
         onClick={type === 'success' || type === 'error' ? onClose : undefined}
       ></div>
 
-      {/* Modal Card */}
-      <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6 transform transition-all scale-100 animate-fade-in border border-white/10 text-center">
+      <div className="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-sm p-8 transform transition-all animate-scale-in border border-white/20">
         
-        {/* Icon Header */}
-        <div className={`mx-auto w-20 h-20 rounded-full flex items-center justify-center mb-5 ${currentConfig.bgIcon} shadow-inner`}>
+        <div className={`mx-auto w-20 h-20 rounded-full flex items-center justify-center mb-6 ${currentConfig.bgIcon} shadow-inner`}>
           {currentConfig.icon}
         </div>
 
-        {/* Content */}
-        <h3 className="font-heading font-extrabold text-xl text-gray-900 mb-2">
+        <h3 className="font-heading font-extrabold text-2xl text-textPrimary mb-3 text-center">
           {title}
         </h3>
-        <p className="text-gray-500 text-sm leading-relaxed mb-8 px-2">
+        <p className="text-textSecondary text-sm leading-relaxed mb-8 text-center px-2">
           {message}
         </p>
 
-        {/* Action Buttons */}
         <div className="flex gap-3">
           {currentConfig.showCancel && (
             <button 
               onClick={onClose}
               disabled={isLoading}
-              className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-50 transition active:scale-95"
+              className="flex-1 py-3.5 rounded-xl border border-border text-textSecondary font-bold text-sm hover:bg-background transition active:scale-95"
             >
               Batal
             </button>
@@ -88,7 +82,7 @@ const ActionModal: React.FC<ActionModalProps> = ({
           <button 
             onClick={type === 'success' || type === 'error' ? onClose : onConfirm}
             disabled={isLoading}
-            className={`flex-1 py-3 rounded-xl text-white font-bold text-sm shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2 ${currentConfig.btnColor}`}
+            className={`flex-1 py-3.5 rounded-xl text-white font-bold text-sm shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2 ${currentConfig.btnColor}`}
           >
             {isLoading ? (
               <>

@@ -9,12 +9,12 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="flex flex-col min-h-screen bg-background font-sans text-textPrimary">
+    <div className='flex flex-col min-h-screen bg-background font-sans text-textPrimary selection:bg-accent/20 selection:text-accent'>
       {/* Navbar muncul di Desktop & Mobile (mode simpel) */}
       <Navbar />
       
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-7xl mx-auto">
+      <main className='flex-1 w-full max-w-7xl mx-auto animate-fade-in'>
         {children}
       </main>
 
